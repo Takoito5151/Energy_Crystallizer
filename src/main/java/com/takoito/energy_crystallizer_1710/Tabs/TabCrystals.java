@@ -1,5 +1,6 @@
-package com.takoito.energy_crystallizer_1710;
+package com.takoito.energy_crystallizer_1710.Tabs;
 
+import com.takoito.energy_crystallizer_1710.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
