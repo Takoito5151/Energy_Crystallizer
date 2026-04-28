@@ -1,11 +1,15 @@
 package com.takoito.energy_crystallizer_1710;
 
 import com.takoito.energy_crystallizer_1710.Tabs.TabCrystals;
+import com.takoito.energy_crystallizer_1710.TileEntity.TECrystallizer;
+import com.takoito.energy_crystallizer_1710.blocks.BlockCrystallizer;
 import com.takoito.energy_crystallizer_1710.blocks.CrystalBlock;
+import com.takoito.energy_crystallizer_1710.gui.GuiHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -20,6 +24,8 @@ public class CommonProxy {
     // preInit "Run before anything else. Read your config, create blocks, items, etc, and register them with the
     // GameRegistry." (Remove if not needed)
     //Tabs
+    public static final int GUI_ID = 0;
+
     public static CreativeTabs tabCrystal = new TabCrystals("Crystals");
 
     public static Item testitem;
@@ -27,6 +33,7 @@ public class CommonProxy {
     public static List<Item> crystals = new ArrayList<>();
 
     public static List<Block> crystals_block = new ArrayList<>();
+    public static Block crystallizer;
 
 
 
@@ -86,10 +93,14 @@ public class CommonProxy {
             GameRegistry.registerItem(crystals.get(i),"energy_crystal_"+i);
             GameRegistry.registerBlock(crystals_block.get(i),"energy_crystal_block_"+i);
         }
+        crystallizer = new BlockCrystallizer();
+        GameRegistry.registerBlock(crystallizer, "crystallizer");
+        GameRegistry.registerTileEntity(TECrystallizer.class, "TECrystallizer");
     }
 
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes." (Remove if not needed)
     public void init(FMLInitializationEvent event) {
+
         for (int ir =0; ir <256;ir++){
             Block block_temp = CommonProxy.crystals_block.get(ir);
             Item item_temp = CommonProxy.crystals.get(ir);
@@ -97,6 +108,11 @@ public class CommonProxy {
                 new ItemStack(block_temp),
                 "XXX", "XXX", "XXX",
                 'X',item_temp
+            );
+            GameRegistry.addRecipe(
+                new ItemStack(item_temp, 9),
+                "X",
+                'X', block_temp
             );
         }
     }

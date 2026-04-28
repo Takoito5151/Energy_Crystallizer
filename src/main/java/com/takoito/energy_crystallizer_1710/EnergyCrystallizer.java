@@ -1,5 +1,7 @@
 package com.takoito.energy_crystallizer_1710;
 
+import com.takoito.energy_crystallizer_1710.gui.GuiHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,6 +18,9 @@ public class EnergyCrystallizer {
     public static final String MODID = "energy_crystallizer";
     public static final Logger LOG = LogManager.getLogger(MODID);
 
+    @Mod.Instance(EnergyCrystallizer.MODID)
+    public static EnergyCrystallizer INSTANCE;
+
     @SidedProxy(clientSide = "com.takoito.energy_crystallizer_1710.ClientProxy", serverSide = "com.takoito.energy_crystallizer_1710.CommonProxy")
     public static CommonProxy proxy;
 
@@ -30,6 +35,7 @@ public class EnergyCrystallizer {
     // load "Do your mod setup. Build whatever data structures you care about. Register recipes." (Remove if not needed)
     public void init(FMLInitializationEvent event) {
         proxy.init(event);
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
     }
 
     @Mod.EventHandler
